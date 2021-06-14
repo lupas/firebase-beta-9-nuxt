@@ -1,5 +1,7 @@
 # firebase-beta-9-nuxt
 
+See Medium article for this repository [here](https://lupas.medium.com/firebase-9-beta-nuxt-js-981cf3dac910).
+
 ## Build Setup
 
 ```bash
@@ -16,5 +18,3 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
