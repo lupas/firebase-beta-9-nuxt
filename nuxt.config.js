@@ -13,7 +13,7 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
-  plugins: [],
+  plugins: ["~/plugins/firebase.js"],
 
   components: true,
 

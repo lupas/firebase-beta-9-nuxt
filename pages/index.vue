@@ -1,73 +1,79 @@
 <template>
-  <div class="container">
+  <section class="container">
     <div>
-      <Logo />
-      <h1 class="title">
-        firebase-beta-9-nuxt
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <h2>
+        Write to Firestore.
+      </h2>
+      <div>
+        <button @click="writeToFirestore">
+          <span>Write now</span>
+        </button>
       </div>
     </div>
-  </div>
+    <div>
+      <h2>
+        Read from Firestore.
+      </h2>
+      <div>
+        <button @click="readFromFirestore">
+          <span>Read now</span>
+        </button>
+      </div>
+      <p>SSR Rendered: {{ title }}</p>
+    </div>
+  </section>
 </template>
-
 <script>
-export default {}
-</script>
+import { db } from "~/plugins/firebase.js";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
+export default {
+  data() {
+    return {
+      title: null,
+    };
+  },
+  async fetch() {
+    const ref = doc(db, "testCollection", "testDoc");
+    try {
+      const document = await getDoc(ref);
+      this.title = document.data().text;
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  methods: {
+    async writeToFirestore() {
+      const ref = doc(db, "testCollection", "testDoc");
+      const document = {
+        text: "Firebase 9 rocks!",
+      };
+      try {
+        await setDoc(ref, document);
+        alert("Success!");
+      } catch (e) {
+        alert("Error!");
+        console.error(e);
+      }
+    },
+    async readFromFirestore() {
+      const ref = doc(db, "testCollection", "testDoc");
+      try {
+        const document = await getDoc(ref);
+        return document.data().text;
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  },
+};
+</script>
 <style>
 .container {
-  margin: 0 auto;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
 }
 </style>
