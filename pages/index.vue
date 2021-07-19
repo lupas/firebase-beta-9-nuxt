@@ -60,7 +60,7 @@ export default {
       const ref = doc(db, "testCollection", "testDoc");
       try {
         const document = await getDoc(ref);
-        return document.data().text;
+        alert(document.data().text);
       } catch (e) {
         console.error(e);
       }
